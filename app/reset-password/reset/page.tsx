@@ -3,13 +3,26 @@
 import { useState, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
+export default function ResetPasswordFormPage() {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: hook up real authentication
+    
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    // TODO: hook up real password reset API
+    // For now, navigate to success page
+    router.push("/reset-password/success");
   };
 
   return (
@@ -37,17 +50,30 @@ export default function LoginPage() {
             priority
           />
           <div className="text-center">
+            <div className="mb-4 flex justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f0e6ff]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-[#a855f7]"
+                >
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+            </div>
             <h1 className="text-2xl font-semibold tracking-tight text-[#262626]">
-              Log in
+              Reset your password
             </h1>
-            <p className="mt-1 text-sm text-[#6b6b6b]">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="#"
-                className="font-medium text-[#f59d1a] hover:text-[#e48805]"
-              >
-                Sign up
-              </Link>
+            <p className="mt-2 text-sm text-[#6b6b6b]">
+              This will reset your password and it cannot be undone.
             </p>
           </div>
         </div>
@@ -55,82 +81,67 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label
-              htmlFor="email"
+              htmlFor="newPassword"
               className="text-sm font-medium text-[#404040]"
             >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              className="w-full rounded-xl border border-[#e4e4e4] bg-white px-4 py-3.5 text-sm text-[#262626] outline-none transition focus:border-[#f59d1a] focus:ring-2 focus:ring-[#fcd39a]"
-              required
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-[#404040]"
-            >
-              Password
+              New password
             </label>
             <div className="relative">
               <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                id="newPassword"
+                type={showNewPassword ? "text" : "password"}
+                placeholder="New password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full rounded-xl border border-[#e4e4e4] bg-white px-4 py-3.5 pr-11 text-sm text-[#262626] outline-none transition focus:border-[#f59d1a] focus:ring-2 focus:ring-[#fcd39a]"
                 required
               />
               <button
                 type="button"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showNewPassword ? "Hide password" : "Show password"}
                 className="absolute inset-y-0 right-0 flex items-center pr-4 text-[#a3a3a3] hover:text-[#737373]"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => setShowNewPassword((prev) => !prev)}
               >
-                <EyeIcon crossed={!showPassword} />
+                <EyeIcon crossed={!showNewPassword} />
               </button>
             </div>
-            <Link
-              href="/reset-password"
-              className="block text-xs text-right font-medium text-[#a3a3a3] hover:text-[#737373]"
+          </div>
+
+          <div className="space-y-1.5">
+            <label
+              htmlFor="confirmPassword"
+              className="text-sm font-medium text-[#404040]"
             >
-              Forgot Password?
-            </Link>
+              Confirm password
+            </label>
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full rounded-xl border border-[#e4e4e4] bg-white px-4 py-3.5 pr-11 text-sm text-[#262626] outline-none transition focus:border-[#f59d1a] focus:ring-2 focus:ring-[#fcd39a]"
+                required
+              />
+              <button
+                type="button"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                className="absolute inset-y-0 right-0 flex items-center pr-4 text-[#a3a3a3] hover:text-[#737373]"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                <EyeIcon crossed={!showConfirmPassword} />
+              </button>
+            </div>
           </div>
 
           <button
             type="submit"
             className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#f59d1a] px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e48805] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fcd39a] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
-            Continue
+            Confirm
           </button>
         </form>
-
-        <div className="my-6 flex items-center gap-4 text-xs text-[#a3a3a3]">
-          <div className="h-px flex-1 bg-[#ece4da]" />
-          <span>OR</span>
-          <div className="h-px flex-1 bg-[#ece4da]" />
-        </div>
-
-        <div className="space-y-3">
-          <button
-            type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e4e4e4] bg-white px-4 py-3 text-sm font-medium text-[#262626] transition hover:bg-[#faf7f3]"
-          >
-            <GoogleIcon />
-            <span>Continue with Google</span>
-          </button>
-          <button
-            type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e4e4e4] bg-white px-4 py-3 text-sm font-medium text-[#262626] transition hover:bg-[#faf7f3]"
-          >
-            <AppleIcon />
-            <span>Continue with Apple</span>
-          </button>
-        </div>
       </section>
     </main>
   );
@@ -161,28 +172,4 @@ function EyeIcon({ crossed }: { crossed: boolean }) {
     </span>
   );
 }
-
-function GoogleIcon() {
-  return (
-    <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#e4e4e4] bg-white text-[11px] font-semibold text-[#4285F4]">
-      G
-    </span>
-  );
-}
-
-function AppleIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="text-black"
-    >
-      <path d="M17.27 12.29c.01 1.98 1.75 2.64 1.77 2.65-.01.05-.28.96-.92 1.9-.55.81-1.12 1.62-2.02 1.64-.88.02-1.16-.53-2.17-.53-1.01 0-1.33.51-2.17.55-.87.03-1.53-.88-2.08-1.69-1.13-1.66-2-4.69-1.04-6.74.72-1.5 2.01-2.45 3.41-2.48.86-.02 1.68.58 2.17.58.49 0 1.5-.72 2.52-.61.43.02 1.64.17 2.42 1.62-.06.04-1.44.84-1.44 2.32Zm-1.64-4.52c.46-.56.77-1.35.69-2.13-.67.03-1.49.45-1.97 1.01-.43.5-.8 1.31-.7 2.09.74.06 1.51-.38 1.98-.97Z" />
-    </svg>
-  );
-}
-
 
