@@ -66,10 +66,10 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[70vh] lg:min-h-[90vh] overflow-visible pb-0">
         {/* Background pattern */}
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-20"
           style={{
             backgroundImage: `repeating-linear-gradient(
               0deg,
@@ -88,25 +88,27 @@ export default function Home() {
           }}
         />
 
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 md:py-20 lg:px-8 lg:py-24">
-          <div className="mx-auto max-w-4xl text-center">
-            {/* Main Headline */}
-            <h1 className="text-3xl font-bold tracking-tight text-[#262626] leading-tight sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight lg:text-6xl lg:leading-tight xl:text-7xl xl:leading-tight">
-              Track & manage your energy consumption -{" "}
-              <span className="relative inline-block">
-                <span className="text-[#f59d1a]">Intelligently</span>
-              </span>
-            </h1>
+        <div className="relative h-full w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col">
+          {/* Content container - positioned in upper portion */}
+          <div className="flex-1 flex flex-col justify-center items-center pt-16 sm:pt-20 md:pt-24 lg:pt-14 pb-12 sm:pb-16 md:pb-20 lg:pb-24">
+            <div className="mx-auto max-w-4xl text-center w-full">
+              {/* Main Headline */}
+              <h1 className="text-3xl font-bold tracking-tight text-[#262626] leading-tight sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight lg:text-6xl lg:leading-tight">
+                Track & manage your energy consumption -{" "}
+                <span className="relative inline-block">
+                  <span className="text-[#f59d1a]">Intelligently</span>
+                </span>
+              </h1>
 
-            {/* Sub-headline */}
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#404040] sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
-              Imólè gives you real-time insight into your electricity consumption
-              and helps you reduce waste, cut costs, and live more sustainably -
-              at home or in your business.
-            </p>
+              {/* Sub-headline */}
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#404040] sm:mt-6 sm:text-lg sm:leading-8 md:text-xl md:leading-8">
+                Imólè gives you real-time insight into your electricity consumption
+                and helps you reduce waste, cut costs, and live more sustainably -
+                at home or in your business.
+              </p>
 
-            {/* CTA Buttons */}
-            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4 md:gap-6">
+              {/* CTA Buttons */}
+              <div className="mt-6 flex flex-col items-stretch justify-center gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-4 md:gap-6">
               <Link
                 href="#"
                 className="flex items-center justify-center gap-2.5 rounded-full bg-[#262626] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#383838] sm:gap-3 sm:px-6 sm:py-3.5 sm:text-base"
@@ -159,7 +161,47 @@ export default function Home() {
                 </svg>
               </Link>
             </div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section className="flex bg-[#0d1a1a]">
+
+
+        <div
+          className="flex w-full"
+          style={{
+            backgroundImage: 'url("/img/sec2bg.png")',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div
+            className="flex w-[280px] sm:w-[320px] md:w-[380px] lg:w-[420px] -mt-24 sm:mt-24 md:-mt-20 lg:-mt-36 mx-auto"
+          >
+            <Image
+              src="/img/mockup-center-phone.png"
+              alt="Imólè app interface showing energy consumption tracking"
+              width={420}
+              height={840}
+              className="w-full h-auto drop-shadow-[0_25px_70px_rgba(0,0,0,0.6)]"
+              priority
+              quality={95}
+              sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, (max-width: 1024px) 380px, 420px"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="flex bg-white px-8 py-12">
+        <div className="flex flex-col w-full w-80% py-8">
+          {/* Pill label so to speak */}
+          <div className="flex flex-col mb-4 px-4 br-4 rounded-full" style={{ width: "fit-content", height: "24px", backgroundColor: "#FEF0DC" }}>
+            <span className="flex text-[#262626]" style={{ fontSize: "12px", textAlign: "left", margin: "auto" }}>THE PROBLEM</span>
+          </div>
+
+          <span className="text-[#262626] leading-tight sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight lg:text-6xl lg:leading-tight" style={{ textAlign: "left", marginLeft: "auto", marginRight: "auto" }}>Many households and businesses have little or no visibility into their energy usage. This often leads to high energy consumption and bills.</span>
         </div>
       </section>
     </main>
