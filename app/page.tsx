@@ -66,7 +66,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] md:min-h-[70vh] lg:min-h-[90vh] overflow-visible pb-0">
+      <section className="relative overflow-visible">
         {/* Background pattern */}
         <div
           className="absolute inset-0 opacity-20"
@@ -88,9 +88,9 @@ export default function Home() {
           }}
         />
 
-        <div className="relative h-full w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col">
+        <div className="relative w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Content container - positioned in upper portion */}
-          <div className="flex-1 flex flex-col justify-center items-center pt-16 sm:pt-20 md:pt-24 lg:pt-14 pb-12 sm:pb-16 md:pb-20 lg:pb-24">
+          <div className="flex flex-col items-center pt-20 sm:pt-24 lg:pt-28 pb-28 sm:pb-36 lg:pb-44">
             <div className="mx-auto max-w-4xl text-center w-full">
               {/* Main Headline */}
               <h1 className="text-3xl font-bold tracking-tight text-[#262626] leading-tight sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight lg:text-6xl lg:leading-tight">
@@ -178,7 +178,7 @@ export default function Home() {
           }}
         >
           <div
-            className="flex w-[280px] sm:w-[320px] md:w-[380px] lg:w-[420px] -mt-24 sm:mt-24 md:-mt-20 lg:-mt-36 mx-auto"
+            className="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[420px] mt-16 lg:-mt-36 mx-auto"
           >
             <Image
               src="/img/mockup-center-phone.png"
@@ -833,36 +833,60 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Follow us on X (Twitter)"
-                    className="h-8 w-8 rounded-full border border-white/20 text-xs flex items-center justify-center hover:bg-white/10 transition"
+                    className="h-8 w-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
                   >
-                    X
+                    <Image
+                      src="/img/x.svg"
+                      alt="X (Twitter) logo"
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                   </a>
                   <a
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Watch us on YouTube"
-                    className="h-8 w-8 rounded-full border border-white/20 text-xs flex items-center justify-center hover:bg-white/10 transition"
+                    className="h-8 w-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
                   >
-                    ▷
+                    <Image
+                      src="/img/youtube.svg"
+                      alt="YouTube logo"
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                   </a>
                   <a
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Follow us on Instagram"
-                    className="h-8 w-8 rounded-full border border-white/20 text-xs flex items-center justify-center hover:bg-white/10 transition"
+                    className="h-8 w-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
                   >
-                    Ig
+                    <Image
+                      src="/img/instagram.svg"
+                      alt="Instagram logo"
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                   </a>
                   <a
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Connect with us on LinkedIn"
-                    className="h-8 w-8 rounded-full border border-white/20 text-xs flex items-center justify-center hover:bg-white/10 transition"
+                    className="h-8 w-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
                   >
-                    in
+                    <Image
+                      src="/img/linkedin.svg"
+                      alt="LinkedIn logo"
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                   </a>
                 </div>
               </div>
@@ -928,7 +952,7 @@ export default function Home() {
                     </li>
                     <li>
                       <Link
-                        href="/privacy"
+                        href="/privacy-policy"
                         aria-label="Read Imólè privacy policy"
                         className="hover:text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59d1a] focus-visible:ring-offset-2 focus-visible:ring-offset-[#15100b]"
                       >

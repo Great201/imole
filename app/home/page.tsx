@@ -21,30 +21,35 @@ export default function HomeDashboard() {
 
           <nav className="mt-4 flex-1 space-y-1 px-3 text-sm">
             {[
-              { label: "Home", icon: "home", active: true },
-              { label: "Devices", icon: "devices" },
-              { label: "Insights", icon: "insights" },
-              { label: "Routine", icon: "routine" },
-              { label: "Budget", icon: "budget" },
-              { label: "Rooms", icon: "rooms" },
-              { label: "Members", icon: "members" },
-              { label: "Settings", icon: "settings" },
+              { label: "Home", icon: "home", href: "/home", active: true },
+              { label: "Devices", icon: "devices", href: "/home/devices" },
+              { label: "Insights", icon: "insights", href: "/home/insights" },
+              { label: "Routine", icon: "routine", href: "/home/routine" },
+              { label: "Budget", icon: "budget", href: "/home/budget" },
+              { label: "Rooms", icon: "rooms", href: "/home/rooms" },
+              { label: "Members", icon: "members", href: "/home/members" },
+              { label: "Settings", icon: "settings", href: "/home/settings" },
             ].map((item) => (
-              <button
+              <Link
                 key={item.label}
-                type="button"
+                href={item.href || "#"}
                 className={`flex w-full items-center gap-3 rounded-full px-3 py-2.5 text-left transition ${
                   item.active
                     ? "bg-[#f9e0b8] font-semibold text-[#5b3b13]"
                     : "text-[#4b4b4b] hover:bg-[#f6ead6]"
                 }`}
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-sm">
-                  {/* simple dot as placeholder icon; replace with real icons later */}
-                  <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-transparent">
+                  <Image
+                    src={`/img/${item.icon}.svg`}
+                    alt={item.label}
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
                 </span>
                 <span>{item.label}</span>
-              </button>
+              </Link>
             ))}
           </nav>
         </aside>
@@ -80,9 +85,9 @@ export default function HomeDashboard() {
             </h1>
 
             {/* Top KPI grid */}
-            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Available unit */}
-              <div className="rounded-2xl bg-[#f6ebdd] p-4 shadow-sm">
+              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm">
                 <div className="flex items-center justify-between text-xs text-[#7b6b53]">
                   <span className="inline-flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#f59d1a]" />
@@ -122,6 +127,20 @@ export default function HomeDashboard() {
 
               {/* CO2 saved */}
               <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm">
+                <p className="text-xs text-[#7b6b53]">Energy used</p>
+                <p className="mt-4 text-2xl font-semibold text-[#262626]">
+                  0.173 kW
+                </p>
+                <p className="mt-1 text-xs text-[#7b6b53]">₦12.80 @ ₦2/kWh</p>
+              </div>
+
+              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm">
+                <p className="text-xs text-[#7b6b53]">Cost saved today</p>
+                <p className="mt-4 text-3xl font-semibold text-[#262626]">
+                ₦12,500
+                </p>
+              </div>
+              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm">
                 <p className="text-xs text-[#7b6b53]">CO2 saved today</p>
                 <p className="mt-4 text-3xl font-semibold text-[#262626]">
                   2.1
@@ -132,24 +151,7 @@ export default function HomeDashboard() {
               </div>
             </div>
 
-            {/* Second row KPIs */}
-            <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm">
-                <p className="text-xs text-[#7b6b53]">Energy used</p>
-                <p className="mt-4 text-2xl font-semibold text-[#262626]">
-                  0.173 kW
-                </p>
-                <p className="mt-1 text-xs text-[#7b6b53]">₦12.80 @ ₦2/kWh</p>
-              </div>
-              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm">
-                <p className="text-xs text-[#7b6b53]">Cost saved today</p>
-                <p className="mt-4 text-2xl font-semibold text-[#262626]">
-                  ₦12,500
-                </p>
-              </div>
-              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm" />
-              <div className="rounded-2xl bg-[#fefaf3] p-4 shadow-sm" />
-            </div>
+            
 
             {/* Active devices */}
             <section className="mt-8">
