@@ -2,6 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function DevicesPage() {
+  const getDeviceIcon = (deviceName: string) => {
+    if (deviceName === "Fridge") return "/img/kitchen.svg";
+    if (deviceName === "Room AC") return "/img/climate_mini_split.svg";
+    if (deviceName === "Speaker") return "/img/nest_multi_room.svg";
+    if (deviceName === "Standing fan") return "/img/mode_fan.svg";
+    if (deviceName.includes("light")) return "/img/wb_incandescent.svg";
+    return "/img/devices.svg"; // fallback
+  };
+
   const devices = [
     {
       room: "Living room",
@@ -43,7 +52,7 @@ export default function DevicesPage() {
           <nav className="mt-4 flex-1 space-y-1 px-3 text-sm">
             {[
               { label: "Home", icon: "home", href: "/home" },
-              { label: "Devices", icon: "devices", href: "/home/devices", active: true },
+              { label: "Devices", icon: "devices", href: "/devices", active: true },
               { label: "Insights", icon: "insights", href: "/home/insights" },
               { label: "Routine", icon: "routine", href: "/home/routine" },
               { label: "Budget", icon: "budget", href: "/home/budget" },
@@ -123,21 +132,21 @@ export default function DevicesPage() {
                     {room.items.map((device) => (
                       <Link
                         key={device.name}
-                        href={`/home/devices/${encodeURIComponent(device.name.toLowerCase().replace(/\s+/g, "-"))}`}
+                        href={`/devices/${encodeURIComponent(device.name.toLowerCase().replace(/\s+/g, "-"))}`}
                         className={`flex items-center gap-4 rounded-xl px-4 py-3 transition cursor-pointer hover:shadow-md ${
                           device.active
                             ? "bg-[#f9e0b8]"
                             : "bg-[#f5f5f5]"
                         }`}
                       >
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
-                          <span className="text-lg">
-                            {device.name === "Fridge" && "❄️"}
-                            {device.name === "Room AC" && "❄️"}
-                            {device.name === "Speaker" && "🔊"}
-                            {device.name === "Standing fan" && "🌀"}
-                            {device.name.includes("light") && "💡"}
-                          </span>
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg">
+                          <Image
+                            src={getDeviceIcon(device.name)}
+                            alt={device.name}
+                            width={24}
+                            height={24}
+                            className="w-6 h-6"
+                          />
                         </div>
                         <div className="flex-1">
                           <p className="font-medium text-[#262626]">{device.name}</p>

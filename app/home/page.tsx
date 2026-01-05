@@ -22,7 +22,7 @@ export default function HomeDashboard() {
           <nav className="mt-4 flex-1 space-y-1 px-3 text-sm">
             {[
               { label: "Home", icon: "home", href: "/home", active: true },
-              { label: "Devices", icon: "devices", href: "/home/devices" },
+              { label: "Devices", icon: "devices", href: "/devices" },
               { label: "Insights", icon: "insights", href: "/home/insights" },
               { label: "Routine", icon: "routine", href: "/home/routine" },
               { label: "Budget", icon: "budget", href: "/home/budget" },
@@ -113,7 +113,7 @@ export default function HomeDashboard() {
                     <span className="text-xs text-[#7b6b53]">Available unit</span>
                   </div>
                   <Link
-                    href="/home/devices"
+                    href="/devices"
                     className="text-[11px] font-medium text-[#f59d1a] hover:underline"
                   >
                     Prepaid meter &gt;
@@ -249,13 +249,13 @@ export default function HomeDashboard() {
                 ].map((device) => (
                   <Link
                     key={device.name}
-                    href={`/home/devices/${encodeURIComponent(
+                    href={`/devices/${encodeURIComponent(
                       device.name.toLowerCase().replace(/\s+/g, "-")
                     )}`}
                     className="flex items-center justify-between rounded-2xl bg-[#f6d6a4] px-4 py-3 shadow-sm hover:bg-[#f4cd95] transition cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/70">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl">
                         <Image
                           src={device.icon}
                           alt={device.name}

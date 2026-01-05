@@ -40,7 +40,7 @@ export default function DeviceDetailPage({ params }: { params: { id: string } })
           <nav className="mt-4 flex-1 space-y-1 px-3 text-sm">
             {[
               { label: "Home", icon: "home", href: "/home" },
-              { label: "Devices", icon: "devices", href: "/home/devices", active: true },
+              { label: "Devices", icon: "devices", href: "/devices", active: true },
               { label: "Insights", icon: "insights", href: "/home/insights" },
               { label: "Routine", icon: "routine", href: "/home/routine" },
               { label: "Budget", icon: "budget", href: "/home/budget" },

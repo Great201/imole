@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 async function isUserLoggedIn() {
-  return false;
+  return true;
 }
 
 export default async function IndexPage() {
