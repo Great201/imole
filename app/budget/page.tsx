@@ -54,7 +54,7 @@ export default function BudgetPage() {
               { label: "Budget", icon: "budget", href: "/budget", active: true },
               { label: "Rooms", icon: "rooms", href: "/rooms" },
               { label: "Members", icon: "members", href: "/members" },
-              { label: "Settings", icon: "settings", href: "/home/settings" },
+              { label: "Settings", icon: "settings", href: "/settings" },
             ].map((item) => (
               <Link
                 key={item.label}
