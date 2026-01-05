@@ -41,8 +41,8 @@ export default function DeviceDetailPage({ params }: { params: { id: string } })
             {[
               { label: "Home", icon: "home", href: "/home" },
               { label: "Devices", icon: "devices", href: "/devices", active: true },
-              { label: "Insights", icon: "insights", href: "/home/insights" },
-              { label: "Routine", icon: "routine", href: "/home/routine" },
+              { label: "Insights", icon: "insights", href: "/insights" },
+              { label: "Routine", icon: "routine", href: "/routines" },
               { label: "Budget", icon: "budget", href: "/home/budget" },
               { label: "Rooms", icon: "rooms", href: "/home/rooms" },
               { label: "Members", icon: "members", href: "/home/members" },
