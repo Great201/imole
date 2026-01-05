@@ -108,7 +108,7 @@ export default function RoomsPage() {
               { label: "Routine", icon: "routine", href: "/routines" },
               { label: "Budget", icon: "budget", href: "/budget" },
               { label: "Rooms", icon: "rooms", href: "/rooms", active: true },
-              { label: "Members", icon: "members", href: "/home/members" },
+              { label: "Members", icon: "members", href: "/members" },
               { label: "Settings", icon: "settings", href: "/home/settings" },
             ].map((item) => (
               <Link

@@ -126,7 +126,7 @@ export default function RoutinesPage() {
               { label: "Routine", icon: "routine", href: "/routines", active: true },
               { label: "Budget", icon: "budget", href: "/budget" },
               { label: "Rooms", icon: "rooms", href: "/rooms" },
-              { label: "Members", icon: "members", href: "/home/members" },
+              { label: "Members", icon: "members", href: "/members" },
               { label: "Settings", icon: "settings", href: "/home/settings" },
             ].map((item) => (
               <Link
