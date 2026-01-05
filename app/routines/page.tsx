@@ -124,7 +124,7 @@ export default function RoutinesPage() {
               { label: "Devices", icon: "devices", href: "/devices" },
               { label: "Insights", icon: "insights", href: "/insights" },
               { label: "Routine", icon: "routine", href: "/routines", active: true },
-              { label: "Budget", icon: "budget", href: "/home/budget" },
+              { label: "Budget", icon: "budget", href: "/budget" },
               { label: "Rooms", icon: "rooms", href: "/home/rooms" },
               { label: "Members", icon: "members", href: "/home/members" },
               { label: "Settings", icon: "settings", href: "/home/settings" },
