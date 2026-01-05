@@ -26,7 +26,7 @@ export default function HomeDashboard() {
               { label: "Insights", icon: "insights", href: "/insights" },
               { label: "Routine", icon: "routine", href: "/routines" },
               { label: "Budget", icon: "budget", href: "/budget" },
-              { label: "Rooms", icon: "rooms", href: "/home/rooms" },
+              { label: "Rooms", icon: "rooms", href: "/rooms" },
               { label: "Members", icon: "members", href: "/home/members" },
               { label: "Settings", icon: "settings", href: "/home/settings" },
             ].map((item) => (
@@ -299,7 +299,7 @@ export default function HomeDashboard() {
                   },
                   {
                     name: "Rooms",
-                    href: "/home/rooms",
+                    href: "/rooms",
                     icon: "/img/rooms.svg",
                   },
                 ].map((action) => (

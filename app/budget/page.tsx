@@ -52,7 +52,7 @@ export default function BudgetPage() {
               { label: "Insights", icon: "insights", href: "/insights" },
               { label: "Routine", icon: "routine", href: "/routines" },
               { label: "Budget", icon: "budget", href: "/budget", active: true },
-              { label: "Rooms", icon: "rooms", href: "/home/rooms" },
+              { label: "Rooms", icon: "rooms", href: "/rooms" },
               { label: "Members", icon: "members", href: "/home/members" },
               { label: "Settings", icon: "settings", href: "/home/settings" },
             ].map((item) => (
