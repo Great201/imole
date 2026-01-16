@@ -37,14 +37,14 @@ export default function SettingsPage() {
   const [appleConnected, setAppleConnected] = useState(false);
 
   const settingsMenu = [
-    { id: "profile" as SettingsSection, label: "Profile settings", icon: "👤" },
-    { id: "payments" as SettingsSection, label: "Payments", icon: "💳" },
-    { id: "notifications" as SettingsSection, label: "Notifications", icon: "🔔" },
-    { id: "security" as SettingsSection, label: "Log in & Security", icon: "🛡️" },
-    { id: "privacy" as SettingsSection, label: "Privacy", icon: "✋" },
-    { id: "terms" as SettingsSection, label: "Terms of Service", icon: "📄" },
-    { id: "support" as SettingsSection, label: "Support", icon: "❓" },
-    { id: "feedback" as SettingsSection, label: "Feedback", icon: "💬" },
+    { id: "profile" as SettingsSection, label: "Profile settings", icon: "person" },
+    { id: "payments" as SettingsSection, label: "Payments", icon: "credit_card" },
+    { id: "notifications" as SettingsSection, label: "Notifications", icon: "notifications" },
+    { id: "security" as SettingsSection, label: "Log in & Security", icon: "gpp_maybe" },
+    { id: "privacy" as SettingsSection, label: "Privacy", icon: "back_hand" },
+    { id: "terms" as SettingsSection, label: "Terms of Service", icon: "assignment" },
+    { id: "support" as SettingsSection, label: "Support", icon: "contact_support" },
+    { id: "feedback" as SettingsSection, label: "Feedback", icon: "add_comment" },
   ];
 
   return (
@@ -149,12 +149,24 @@ export default function SettingsPage() {
                         : "text-[#4b4b4b] hover:bg-[#f5eee2]"
                     }`}
                   >
-                    <span className="text-lg">{item.icon}</span>
+                    <Image
+                      src={`/img/${item.icon}.svg`}
+                      alt={item.label}
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                     <span className="text-sm">{item.label}</span>
                   </button>
                 ))}
                 <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-red-600 hover:bg-red-50 transition mt-4">
-                  <span className="text-lg">🚪</span>
+                  <Image
+                    src="/img/door_open.svg"
+                    alt="Log out"
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
                   <span className="text-sm">Log out</span>
                 </button>
               </nav>
