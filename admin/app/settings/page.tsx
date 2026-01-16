@@ -28,6 +28,49 @@ export default function AdminSettings() {
     },
   });
 
+  // Notification settings state
+  const [notificationSettings, setNotificationSettings] = useState({
+    globalEmail: false,
+    globalPush: false,
+    userSignup: {
+      newInstitutionSignup: { email: false, push: false },
+      institutionFlagged: { email: false, push: false },
+    },
+    userAlerts: {
+      newUserSignups: { email: false, push: false },
+      accountFlagged: { email: false, push: false },
+      failedLoginAttempts: { email: false, push: false },
+    },
+    bookingAlerts: {
+      largeEventBooking: { email: false, push: false },
+      bookingOverride: { email: false, push: false },
+      doubleBooking: { email: false, push: false },
+    },
+  });
+
+  const auditLogData = [
+    {
+      user: "Jane Smith",
+      activity: "Updated lab equipment",
+      time: "Wall socket",
+    },
+    {
+      user: "John Doe",
+      activity: "Changed user permissions",
+      time: "2 hours ago",
+    },
+    {
+      user: "Admin User",
+      activity: "Created new role",
+      time: "1 day ago",
+    },
+    {
+      user: "System",
+      activity: "Automatic backup completed",
+      time: "3 days ago",
+    },
+  ];
+
   const navItems = [
     { label: "Home", icon: "home", href: "/home" },
     { label: "Devices", icon: "devices", href: "/devices" },
@@ -327,18 +370,430 @@ export default function AdminSettings() {
           {/* Notification Tab Content */}
           {activeTab === "notification" && (
             <div>
-              <h3 className="text-xl font-bold text-[#262626] mb-4">
-                Notification Settings
-              </h3>
-              <p className="text-[#8a7b65]">Notification settings content coming soon...</p>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#262626]">Notifications</h3>
+                <div className="flex items-center gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.globalEmail}
+                      onChange={(e) =>
+                        setNotificationSettings((prev) => ({
+                          ...prev,
+                          globalEmail: e.target.checked,
+                        }))
+                      }
+                      className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                    />
+                    <span className="text-sm font-medium text-[#262626]">Email</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.globalPush}
+                      onChange={(e) =>
+                        setNotificationSettings((prev) => ({
+                          ...prev,
+                          globalPush: e.target.checked,
+                        }))
+                      }
+                      className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                    />
+                    <span className="text-sm font-medium text-[#262626]">Push</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border border-[#eadfce] p-6">
+                {/* User signup */}
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-[#262626] mb-4">User signup</h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        New institution signup request pending approval
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userSignup.newInstitutionSignup.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userSignup: {
+                                ...prev.userSignup,
+                                newInstitutionSignup: {
+                                  ...prev.userSignup.newInstitutionSignup,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userSignup.newInstitutionSignup.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userSignup: {
+                                ...prev.userSignup,
+                                newInstitutionSignup: {
+                                  ...prev.userSignup.newInstitutionSignup,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        Institution account flagged or suspended (auto/manual)
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userSignup.institutionFlagged.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userSignup: {
+                                ...prev.userSignup,
+                                institutionFlagged: {
+                                  ...prev.userSignup.institutionFlagged,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userSignup.institutionFlagged.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userSignup: {
+                                ...prev.userSignup,
+                                institutionFlagged: {
+                                  ...prev.userSignup.institutionFlagged,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* User alerts */}
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-[#262626] mb-4">User alerts</h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        New user signups (daily summary by role)
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userAlerts.newUserSignups.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userAlerts: {
+                                ...prev.userAlerts,
+                                newUserSignups: {
+                                  ...prev.userAlerts.newUserSignups,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userAlerts.newUserSignups.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userAlerts: {
+                                ...prev.userAlerts,
+                                newUserSignups: {
+                                  ...prev.userAlerts.newUserSignups,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        User account flagged for suspicious activity or abuse reports
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userAlerts.accountFlagged.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userAlerts: {
+                                ...prev.userAlerts,
+                                accountFlagged: {
+                                  ...prev.userAlerts.accountFlagged,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userAlerts.accountFlagged.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userAlerts: {
+                                ...prev.userAlerts,
+                                accountFlagged: {
+                                  ...prev.userAlerts.accountFlagged,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        Multiple failed login attempts from same IP (security alert)
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userAlerts.failedLoginAttempts.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userAlerts: {
+                                ...prev.userAlerts,
+                                failedLoginAttempts: {
+                                  ...prev.userAlerts.failedLoginAttempts,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.userAlerts.failedLoginAttempts.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              userAlerts: {
+                                ...prev.userAlerts,
+                                failedLoginAttempts: {
+                                  ...prev.userAlerts.failedLoginAttempts,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Booking alerts */}
+                <div>
+                  <h4 className="text-sm font-semibold text-[#262626] mb-4">Booking alerts</h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        Large event booking request pending manual approval
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.bookingAlerts.largeEventBooking.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              bookingAlerts: {
+                                ...prev.bookingAlerts,
+                                largeEventBooking: {
+                                  ...prev.bookingAlerts.largeEventBooking,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.bookingAlerts.largeEventBooking.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              bookingAlerts: {
+                                ...prev.bookingAlerts,
+                                largeEventBooking: {
+                                  ...prev.bookingAlerts.largeEventBooking,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-3 border-b border-[#eadfce]">
+                      <span className="text-sm text-[#262626]">
+                        Booking override executed by a Hall Manager
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.bookingAlerts.bookingOverride.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              bookingAlerts: {
+                                ...prev.bookingAlerts,
+                                bookingOverride: {
+                                  ...prev.bookingAlerts.bookingOverride,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.bookingAlerts.bookingOverride.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              bookingAlerts: {
+                                ...prev.bookingAlerts,
+                                bookingOverride: {
+                                  ...prev.bookingAlerts.bookingOverride,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-sm text-[#262626]">
+                        Double-booking conflict detected in same hall & timeslot
+                      </span>
+                      <div className="flex items-center gap-6">
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.bookingAlerts.doubleBooking.email}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              bookingAlerts: {
+                                ...prev.bookingAlerts,
+                                doubleBooking: {
+                                  ...prev.bookingAlerts.doubleBooking,
+                                  email: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                        <input
+                          type="checkbox"
+                          checked={notificationSettings.bookingAlerts.doubleBooking.push}
+                          onChange={(e) =>
+                            setNotificationSettings((prev) => ({
+                              ...prev,
+                              bookingAlerts: {
+                                ...prev.bookingAlerts,
+                                doubleBooking: {
+                                  ...prev.bookingAlerts.doubleBooking,
+                                  push: e.target.checked,
+                                },
+                              },
+                            }))
+                          }
+                          className="w-5 h-5 rounded border-[#eadfce] text-[#f59d1a] focus:ring-2 focus:ring-[#f59d1a] focus:ring-offset-0"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
           {/* Audit Log Tab Content */}
           {activeTab === "audit" && (
             <div>
-              <h3 className="text-xl font-bold text-[#262626] mb-4">Audit Log</h3>
-              <p className="text-[#8a7b65]">Audit log content coming soon...</p>
+              <div className="bg-white rounded-lg border border-[#eadfce] overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-[#eadfce]">
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          User
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          Activity
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#eadfce]">
+                      {auditLogData.map((log, index) => (
+                        <tr key={index} className="hover:bg-[#fafafa] transition">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            {log.user}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-[#262626]">
+                            {log.activity}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            {log.time}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           )}
         </div>
