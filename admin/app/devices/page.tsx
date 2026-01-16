@@ -140,7 +140,7 @@ export default function AdminDevices() {
                 alt={item.label}
                 width={20}
                 height={20}
-                className="w-5 h-5"
+                className="w-5 h-5 brightness-0 invert"
               />
               <span>{item.label}</span>
             </Link>
