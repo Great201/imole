@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function AdminHome() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navItems = [
     { label: "Home", icon: "home", href: "/home", active: true },
     { label: "Devices", icon: "devices", href: "/devices" },
@@ -58,8 +60,20 @@ export default function AdminHome() {
 
   return (
     <div className="flex h-screen bg-[#f5eee2]">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-[#1a1a1a] flex flex-col">
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#1a1a1a] flex flex-col transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
+      >
         <div className="p-6">
           <div className="flex items-center gap-2 mb-2">
             <Image
@@ -80,6 +94,7 @@ export default function AdminHome() {
             <Link
               key={item.label}
               href={item.href || "#"}
+              onClick={() => setIsMobileMenuOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition ${
                 item.active
                   ? "bg-[#f59d1a] text-white font-medium"
@@ -100,10 +115,34 @@ export default function AdminHome() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden lg:ml-0">
         {/* Top Header */}
-        <header className="h-16 bg-white border-b border-[#eadfce] flex items-center justify-between px-6">
-          <h1 className="text-lg font-semibold text-[#262626]">Overview</h1>
+        <header className="h-16 bg-white border-b border-[#eadfce] flex items-center justify-between px-4 lg:px-6">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 rounded-lg hover:bg-[#f5eee2] transition"
+              aria-label="Toggle menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-[#262626]"
+              >
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+            <h1 className="text-lg font-semibold text-[#262626]">Overview</h1>
+          </div>
           <div className="flex items-center gap-4">
             <button
               type="button"
@@ -132,11 +171,11 @@ export default function AdminHome() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <h2 className="text-2xl font-bold text-[#262626] mb-6">Overview</h2>
+        <div className="flex-1 overflow-y-auto p-4 lg:p-6">
+          <h2 className="text-xl lg:text-2xl font-bold text-[#262626] mb-4 lg:mb-6">Overview</h2>
 
           {/* KPI Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {kpiCards.map((card, index) => (
               <div
                 key={index}

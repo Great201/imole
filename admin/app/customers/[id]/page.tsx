@@ -11,6 +11,7 @@ export default function CustomerDetail() {
   const [activeTab, setActiveTab] = useState<
     "basic" | "devices" | "branch" | "subscription" | "transactions" | "usage" | "activity"
   >("basic");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
     { label: "Home", icon: "home", href: "/home" },
@@ -152,8 +153,20 @@ export default function CustomerDetail() {
 
   return (
     <div className="flex h-screen bg-[#f5eee2]">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-[#1a1a1a] flex flex-col">
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#1a1a1a] flex flex-col transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
+      >
         <div className="p-6">
           <div className="flex items-center gap-2 mb-2">
             <Image
@@ -174,6 +187,7 @@ export default function CustomerDetail() {
             <Link
               key={item.label}
               href={item.href || "#"}
+              onClick={() => setIsMobileMenuOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition ${
                 item.active
                   ? "bg-[#f59d1a] text-white font-medium"
@@ -194,10 +208,32 @@ export default function CustomerDetail() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden lg:ml-0">
         {/* Top Header */}
-        <header className="h-16 bg-white border-b border-[#eadfce] flex items-center justify-between px-6">
+        <header className="h-16 bg-white border-b border-[#eadfce] flex items-center justify-between px-4 lg:px-6">
           <div className="flex items-center gap-2 text-sm text-[#8a7b65]">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 rounded-lg hover:bg-[#f5eee2] transition mr-2"
+              aria-label="Toggle menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-[#262626]"
+              >
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
             <Link href="/customers" className="hover:text-[#262626] transition">
               Customers
             </Link>
@@ -232,7 +268,7 @@ export default function CustomerDetail() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 lg:p-6">
           {/* Customer Profile Header */}
           <div className="bg-white rounded-lg border border-[#eadfce] p-6 mb-6">
             <div className="flex items-center justify-between">
@@ -457,22 +493,22 @@ export default function CustomerDetail() {
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-[#eadfce]">
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Name
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Location
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Meter
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Device
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Added
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             {/* Actions */}
                           </th>
                         </tr>
@@ -480,19 +516,19 @@ export default function CustomerDetail() {
                       <tbody className="divide-y divide-[#eadfce]">
                         {branchesData.map((branch, index) => (
                           <tr key={index} className="hover:bg-[#fafafa] transition">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-[#262626]">
                               {branch.name}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {branch.location}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {branch.meter}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {branch.device}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {branch.added}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
@@ -571,22 +607,22 @@ export default function CustomerDetail() {
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-[#eadfce]">
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Transaction ID
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Description
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Amount
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Date
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Status
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             {/* Actions */}
                           </th>
                         </tr>
@@ -594,16 +630,16 @@ export default function CustomerDetail() {
                       <tbody className="divide-y divide-[#eadfce]">
                         {billingHistoryData.map((item, index) => (
                           <tr key={index} className="hover:bg-[#fafafa] transition">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-[#262626]">
                               {item.transactionId}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {item.description}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               ₦{item.amount}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {item.date}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
@@ -649,22 +685,22 @@ export default function CustomerDetail() {
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-[#eadfce]">
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Description
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Amount
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Method
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Reference
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Date
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Status
                           </th>
                         </tr>
@@ -702,13 +738,13 @@ export default function CustomerDetail() {
                             >
                               {transaction.amount}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {transaction.method}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {transaction.reference}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {transaction.date}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
@@ -856,13 +892,13 @@ export default function CustomerDetail() {
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-[#eadfce]">
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             User
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Activity
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
+                          <th className="px-3 lg:px-6 py-3 text-left text-xs font-semibold text-[#262626] uppercase tracking-wider">
                             Date
                           </th>
                         </tr>
@@ -870,13 +906,13 @@ export default function CustomerDetail() {
                       <tbody className="divide-y divide-[#eadfce]">
                         {activityLogData.map((activity, index) => (
                           <tr key={index} className="hover:bg-[#fafafa] transition">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {activity.user}
                             </td>
                             <td className="px-6 py-4 text-sm text-[#262626]">
                               {activity.activity}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
+                            <td className="px-3 lg:px-6 py-4 whitespace-nowrap text-sm text-[#262626]">
                               {activity.date}
                             </td>
                           </tr>
