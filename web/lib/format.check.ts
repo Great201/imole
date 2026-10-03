@@ -23,9 +23,15 @@ assert.equal(digits(naira(1280, true)), "12.80", "sub-naira needs exact mode");
 assert.equal(digits(naira(1_250_000)), "12500", "₦12,500 cost-saved tile");
 // Rounding, not truncation: 1299 kobo is ₦12.99 → ₦13 whole.
 assert.equal(digits(naira(1299)), "13", "whole mode rounds");
-// Negative amounts keep their magnitude (transactions carry a separate `sign`,
-// but the formatter must not swallow one if handed it directly).
-assert.equal(digits(naira(-2_000_000)), "20000", "negative still shows the magnitude");
+// Negative amounts (transactions carry a separate `sign`, but the formatter
+// must not swallow one if handed it directly). `digits()` strips the minus, so
+// asserting on it alone cannot catch a swallowed sign — check the raw output
+// separately, and that it differs from the positive at all.
+const negative = naira(-2_000_000);
+const positive = naira(2_000_000);
+assert.equal(digits(negative), "20000", "negative keeps its magnitude");
+assert.notEqual(negative, positive, "negative must not format identically to positive");
+assert.match(negative, /^-/, "negative keeps its leading minus sign");
 
 // --- relative: past/future/now and unit selection --------------------------
 const ago = (ms: number) => new Date(Date.now() - ms).toISOString();
@@ -61,11 +67,24 @@ assert.equal(
   "Mon, Wed, Fri",
   "arbitrary sets list days in week order",
 );
-// Unordered input must still report the earliest instant's time.
+// Differing clock times have no single answer, so the label must say so rather
+// than pick one day's time and imply it applies to all of them.
 assert.equal(
   formatSchedule([at(2026, 2, 4, 18), at(2026, 2, 2, 9)]).time,
-  formatSchedule([at(2026, 2, 2, 9)]).time,
-  "time comes from the earliest instant regardless of input order",
+  "Varies",
+  "mixed times must not be reported as a single time",
+);
+// A shared clock time across several days still reports that time, and input
+// order must not change it.
+assert.equal(
+  formatSchedule([at(2026, 2, 4, 9), at(2026, 2, 2, 9)]).time,
+  "9:00am",
+  "one time across many days is reported, order-independently",
+);
+assert.equal(
+  formatSchedule(weekdays).time,
+  formatSchedule([at(2026, 2, 2)]).time,
+  "uniform weekday schedule keeps its single time",
 );
 assert.equal(formatSchedule([at(2026, 2, 2, 12)]).time, "12:00pm", "noon, tight and lowercase");
 assert.equal(formatSchedule([at(2026, 2, 2, 0)]).time, "12:00am", "midnight is 12am, not 0am");

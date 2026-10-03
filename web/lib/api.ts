@@ -48,7 +48,12 @@ export function getToken(): string | null {
 export function setSession(token: string, user: unknown): void {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(TOKEN_KEY, token);
+  // A new session must never inherit the previous one's user. signIn() passes
+  // null whenever the response had no parseable user, so without this the old
+  // user stays cached under the new token and getUser() reports the wrong
+  // identity.
   if (user) window.localStorage.setItem(USER_KEY, JSON.stringify(user));
+  else window.localStorage.removeItem(USER_KEY);
 }
 
 export function clearSession(): void {

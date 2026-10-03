@@ -132,7 +132,17 @@ export function formatSchedule(timeAndDay: string[] | null | undefined): {
   const dates = (timeAndDay ?? []).map(parse).filter((d): d is Date => d !== null);
   if (!dates.length) return { time: "—", frequency: "Not scheduled" };
 
-  dates.sort((a, b) => a.getTime() - b.getTime());
   const days = new Set(dates.map((d) => d.getDay()));
-  return { time: clockTime(dates[0]), frequency: describeDays(days) };
+
+  // Nothing in the API constrains the instants to share a clock time, so there
+  // may be no single time to show. Reporting one day's time beside a multi-day
+  // frequency would silently misstate every other day — say "Varies" instead.
+  //
+  // ponytail: collapses to one label. If the designs need per-day times, this
+  // has to return a day->time list and /routines has to render it.
+  const times = new Set(dates.map(clockTime));
+  return {
+    time: times.size === 1 ? [...times][0] : "Varies",
+    frequency: describeDays(days),
+  };
 }
