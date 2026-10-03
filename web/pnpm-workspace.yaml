@@ -1,0 +1,12 @@
+packages:
+  - .
+# Decline both native postinstalls so `pnpm install` doesn't exit non-zero on
+# ERR_PNPM_IGNORED_BUILDS. sharp only powers next/image optimization, which Next
+# falls back from; unrs-resolver is an eslint resolver that works prebuilt.
+#
+# pnpm 11.22 wants `allowBuilds`. admin/pnpm-workspace.yaml still uses the older
+# `ignoredBuiltDependencies` key and has never been installed — it will need the
+# same change in Phase 7.
+allowBuilds:
+  sharp: false
+  unrs-resolver: false

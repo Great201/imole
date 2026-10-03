@@ -1,0 +1,6 @@
+# graphify knowledge-graph output — fully regenerable with `/graphify`, and
+# .graphify_python / .graphify_root hold absolute machine-local paths.
+graphify-out/
+
+# macOS
+.DS_Store
