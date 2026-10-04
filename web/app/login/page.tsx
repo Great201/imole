@@ -3,13 +3,48 @@
 import { useState, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { resendOtp, signIn } from "@/lib/auth";
+import { ErrorBox } from "@/lib/ui";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  // The API rejects unverified accounts with 400 "User not verified". That is
+  // recoverable by resending the OTP, so it gets its own affordance.
+  const [unverified, setUnverified] = useState(false);
+  const [resent, setResent] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: hook up real authentication
+    setError(null);
+    setUnverified(false);
+    setResent(false);
+    setSubmitting(true);
+    try {
+      await signIn(email, password);
+      router.replace("/home");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not sign in.";
+      setError(message);
+      if (message.toLowerCase().includes("not verified")) setUnverified(true);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleResend = async () => {
+    setError(null);
+    try {
+      await resendOtp(email);
+      setResent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not resend the code.");
+    }
   };
 
   return (
@@ -64,6 +99,9 @@ export default function LoginPage() {
               id="email"
               type="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
               className="w-full rounded-xl border border-[#e4e4e4] bg-white px-4 py-3.5 text-sm text-[#262626] outline-none transition focus:border-[#f59d1a] focus:ring-2 focus:ring-[#fcd39a]"
               required
             />
@@ -81,6 +119,9 @@ export default function LoginPage() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
                 className="w-full rounded-xl border border-[#e4e4e4] bg-white px-4 py-3.5 pr-11 text-sm text-[#262626] outline-none transition focus:border-[#f59d1a] focus:ring-2 focus:ring-[#fcd39a]"
                 required
               />
@@ -101,11 +142,31 @@ export default function LoginPage() {
             </Link>
           </div>
 
+          {error && (
+            <ErrorBox
+              message={error}
+              onRetry={unverified ? handleResend : undefined}
+            />
+          )}
+          {unverified && !resent && (
+            <p className="text-xs text-[#8a7b65]">
+              This account hasn&apos;t been verified yet. Use &ldquo;Try again&rdquo; above to resend
+              the code.
+            </p>
+          )}
+          {resent && (
+            <p className="text-xs text-[#4b7b4b]">
+              A new code is on its way to {email}.
+            </p>
+          )}
+
           <button
             type="submit"
-            className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#f59d1a] px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e48805] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fcd39a] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            disabled={submitting}
+            aria-busy={submitting}
+            className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#f59d1a] px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e48805] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fcd39a] focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Continue
+            {submitting ? "Signing in…" : "Continue"}
           </button>
         </form>
 
@@ -115,17 +176,23 @@ export default function LoginPage() {
           <div className="h-px flex-1 bg-[#ece4da]" />
         </div>
 
+        {/* Disabled, not removed: the API has no OAuth endpoint of any kind, so
+            these cannot work. Leaving them live would silently do nothing. */}
         <div className="space-y-3">
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e4e4e4] bg-white px-4 py-3 text-sm font-medium text-[#262626] transition hover:bg-[#faf7f3]"
+            disabled
+            title="Coming soon"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e4e4e4] bg-white px-4 py-3 text-sm font-medium text-[#262626] transition hover:bg-[#faf7f3] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white"
           >
             <GoogleIcon />
             <span>Continue with Google</span>
           </button>
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e4e4e4] bg-white px-4 py-3 text-sm font-medium text-[#262626] transition hover:bg-[#faf7f3]"
+            disabled
+            title="Coming soon"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e4e4e4] bg-white px-4 py-3 text-sm font-medium text-[#262626] transition hover:bg-[#faf7f3] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white"
           >
             <AppleIcon />
             <span>Continue with Apple</span>

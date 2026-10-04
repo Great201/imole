@@ -1,63 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import { Shell } from "@/lib/shell";
 
 export default function InsightsPage() {
   const [activeTab, setActiveTab] = useState<"overview" | "devices" | "forecast" | "efficiency">("overview");
 
   return (
-    <main className="min-h-screen bg-[#f5eee2] text-[#262626]">
-      <div className="flex h-screen">
-        {/* Sidebar */}
-        <aside className="flex w-64 flex-col border-r border-[#eadfce] bg-[#fff7ea]">
-          <div className="flex h-16 items-center px-6">
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/logo.png"
-                alt="Imólè"
-                width={110}
-                height={32}
-                className="h-7 w-auto"
-              />
-            </Link>
-          </div>
-
-          <nav className="mt-4 flex-1 space-y-1 px-3 text-sm">
-            {[
-              { label: "Home", icon: "home", href: "/home" },
-              { label: "Devices", icon: "devices", href: "/devices" },
-              { label: "Insights", icon: "insights", href: "/insights", active: true },
-              { label: "Routine", icon: "routine", href: "/routines" },
-              { label: "Budget", icon: "budget", href: "/budget" },
-              { label: "Rooms", icon: "rooms", href: "/rooms" },
-              { label: "Members", icon: "members", href: "/members" },
-              { label: "Settings", icon: "settings", href: "/settings" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href || "#"}
-                className={`flex w-full items-center gap-3 rounded-full px-3 py-2.5 text-left transition ${
-                  item.active
-                    ? "bg-[#f9e0b8] font-semibold text-[#5b3b13]"
-                    : "text-[#4b4b4b] hover:bg-[#f6ead6]"
-                }`}
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-transparent">
-                  <Image
-                    src={`/img/${item.icon}.svg`}
-                    alt={item.label}
-                    width={20}
-                    height={20}
-                    className="w-5 h-5"
-                  />
-                </span>
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-        </aside>
+    <Shell>
 
         {/* Main content */}
         <section className="flex-1 overflow-y-auto">
@@ -353,8 +304,7 @@ export default function InsightsPage() {
             )}
           </div>
         </section>
-      </div>
-    </main>
+    </Shell>
   );
 }
 
